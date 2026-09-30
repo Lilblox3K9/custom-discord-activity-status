@@ -1,6 +1,11 @@
-﻿using DiscordRPC;
+﻿using System.Text.Json;
+using DiscordRPC;
 
-var client = new DiscordRpcClient("1554800658194894969");
+string json = File.ReadAllText("config.json");
+using JsonDocument doc = JsonDocument.Parse(json);
+string appId = doc.RootElement.GetProperty("ApplicationId").GetString() ?? "";
+
+var client = new DiscordRpcClient(appId);
 client.Initialize();
 
 Console.WriteLine("Enter your task."); //"Enter your description"
