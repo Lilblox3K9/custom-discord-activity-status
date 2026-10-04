@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using DiscordRPC;
 
@@ -5,31 +6,37 @@ namespace DiscordStatus;
 
 class LoadingActivity{
 
-    public static void LoadActivity(){
-        if (Program.appIds.Count == 0){
-            Console.WriteLine("No activities to load");
+    public static void LoadActivity(ConfigAccess configuration){
+        if (configuration.Activities.Count == 0){
+            Console.WriteLine($"\nNo activities to load");
             return;
         }
 
-        var appId = GetActivityToLoad();
-        var description = GetactivityDescription();
+        string appId = GetActivityToLoad(configuration);
+        string description = GetactivityDescription();
         InstantiatePresence(appId, description);
         return;
     }
 
-    private static string GetActivityToLoad(){
-        Console.WriteLine("Select an activity:");
-        //write out activities in the form
-        //[x] activity_name
+    private static string GetActivityToLoad(ConfigAccess configuration){
+        Console.WriteLine($"\nSelect an activity:");
+        for (int i = 0; i < configuration.Activities.Count; i++)
+            Console.WriteLine($"[{i+1}] {configuration.Activities[i].Name}");
 
-        int appIndex =  Program.ReadChoice(1, Program.appIds.Count());
-        return (Program.appIds[appIndex - 1]);
+        int choice = Program.ReadChoice(1, configuration.Activities.Count);
+        return configuration.Activities[choice - 1].ApplicationId;
     }
 
     private static string GetactivityDescription(){
-        Console.WriteLine("Describe your current activity.");
+        Console.WriteLine($"\nDescribe your current activity.");
         
         string description = Console.ReadLine() ?? "";
+
+        while (description.Trim().Length < 2)
+        {
+            Console.WriteLine("Please enter at least 2 characters");
+            description = Console.ReadLine() ?? "";
+        }
 
         return description;
     }
@@ -45,7 +52,7 @@ class LoadingActivity{
             }
         });
 
-        Console.WriteLine("Projecting status. Press enter to end.");
+        Console.WriteLine($"\nProjecting status. Press enter to end.");
         Console.ReadLine();
         client.Dispose();
     }

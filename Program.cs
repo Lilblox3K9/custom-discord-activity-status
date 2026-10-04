@@ -1,24 +1,16 @@
-﻿using System.Text.Json;
-using DiscordRPC;
+﻿namespace DiscordStatus;
 
-namespace DiscordStatus;
-
-class Program
-{
-    static AppConfig config = new();
-    public static List<string> appIds = new();
-
+class Program{
     static void Main()
     {
-        string json = File.ReadAllText("config.json");
-        config = JsonSerializer.Deserialize<AppConfig>(json) ?? new AppConfig();
-        appIds = config.ApplicationIds;
+        var configuration = new ConfigAccess();
+        configuration.Load();
 
         bool running = true;
         while (running){
-            Menu();
+            Menu(configuration);
             
-            Console.WriteLine("Would you like to:");
+            Console.WriteLine($"\nWould you like to:");
             Console.WriteLine("[1] Return to main menu");
             Console.WriteLine("[2] Close the application");
 
@@ -37,38 +29,21 @@ class Program
             Console.WriteLine($"Enter a number from {min} to {max}");
         }
     }
-    public static void AddId(string appId){
-        if (config.ApplicationIds.Contains(appId)){
-            Console.WriteLine("Application is already added.");
-            return;
-        }
-        else{
-            config.ApplicationIds.Add(appId);
-            File.WriteAllText("config.json", JsonSerializer.Serialize(config));
-            Console.WriteLine("Application has been added successfully.");
-            return;
-        }
-    }
-    static void Menu()
+    static void Menu(ConfigAccess configuration)
     {
-        Console.WriteLine("Are you:");
-        Console.WriteLine("[1] Loading an acitivty");
+        Console.WriteLine($"\nAre you:");
+        Console.WriteLine("[1] Loading an activty");
         Console.WriteLine("[2] Adding an activity");
         Console.WriteLine("[3] Removing an activity");
 
         switch (ReadChoice(1, 2))
         {
             case 1:
-                LoadingActivity.LoadActivity();
+                LoadingActivity.LoadActivity(configuration);
                 break;
             case 2:
-                AddingActivity.AddActivity();
+                AddingActivity.AddActivity(configuration);
                 break;
         }
     }
-}
-
-public class AppConfig
-{
-    public List<string> ApplicationIds { get; set; } = new();
 }
