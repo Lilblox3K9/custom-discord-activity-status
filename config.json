@@ -1,19 +1,4 @@
 {
   "Activities": [
-    {
-      "Name": "Working on a project",
-      "ApplicationId": "1554800658194894969",
-      "Description": "Working on Discord Custom Activtiy Status project"
-    },
-    {
-      "Name": "Playing a game",
-      "ApplicationId": "1555572990350073856",
-      "Description": ""
-    },
-    {
-      "Name": "Chilling out",
-      "ApplicationId": "1555573106029105222",
-      "Description": ""
-    }
   ]
 }
