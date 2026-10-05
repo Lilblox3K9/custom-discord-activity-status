@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace DiscordStatus;
@@ -7,16 +8,13 @@ class ConfigAccess{
     
     public IReadOnlyList<ActivityEntry> Activities => config.Activities;
 
-    public void Load()
-    {
+    public void Load(){
         if (File.Exists(Path))
             config = JsonSerializer.Deserialize<AppConfig>(File.ReadAllText(Path)) ?? new();
     }
 
-    public bool Add(ActivityEntry entry)
-    {
-        if (config.Activities.Any(a => a.ApplicationId == entry.ApplicationId))
-        {
+    public bool Add(ActivityEntry entry){
+        if (config.Activities.Any(a => a.ApplicationId == entry.ApplicationId)){
             return false;
         }
 
@@ -25,26 +23,27 @@ class ConfigAccess{
         return true;
     }
 
-    public void Remove(int index)
-    {
+    public void Remove(int index){
         config.Activities.RemoveAt(index);
         Save();
     }
 
-    private void Save()
-    {
+    public void SetDescription(ActivityEntry activityEntry, string Description){
+        activityEntry.Description = Description;
+        Save();
+    }
+
+    private void Save(){
         string json = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true});
         File.WriteAllText(Path, json);
     }
 }
 
-public class ActivityEntry
-{
+public class ActivityEntry{
     public string Name { get; set; } = "";
     public string ApplicationId { get; set; } = "";
     public string Description { get; set; } = "";
 }
-public class AppConfig
-{
+public class AppConfig{
     public List<ActivityEntry> Activities { get; set; } = new();
 }

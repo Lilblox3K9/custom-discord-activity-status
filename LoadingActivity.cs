@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using DiscordRPC;
 
 namespace DiscordStatus;
@@ -13,7 +12,7 @@ class LoadingActivity{
         ActivityEntry activityEntry = GetActivityToLoad(configuration);
         string description = GetactivityDescription(activityEntry);
 
-        activityEntry.Description = description;
+        configuration.SetDescription(activityEntry, description);
         InstantiatePresence(activityEntry.ApplicationId, description);
         return;
     }
