@@ -1,5 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
-using System.Text.Json;
 using DiscordRPC;
 
 namespace DiscordStatus;
@@ -32,8 +30,7 @@ class LoadingActivity{
         
         string description = Console.ReadLine() ?? "";
 
-        while (description.Trim().Length < 2)
-        {
+        while (description.Trim().Length < 2){
             Console.WriteLine("Please enter at least 2 characters");
             description = Console.ReadLine() ?? "";
         }

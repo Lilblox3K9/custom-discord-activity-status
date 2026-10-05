@@ -1,8 +1,7 @@
 using System.Text.Json;
 
 namespace DiscordStatus;
-class ConfigAccess
-{
+class ConfigAccess{
     private const string Path = "config.json";
     private AppConfig config = new();
     

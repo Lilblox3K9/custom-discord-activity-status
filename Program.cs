@@ -1,8 +1,7 @@
 ﻿namespace DiscordStatus;
 
 class Program{
-    static void Main()
-    {
+    static void Main(){
         var configuration = new ConfigAccess();
         configuration.Load();
 
@@ -19,30 +18,30 @@ class Program{
         }
     }
 
-    public static int ReadChoice(int min, int max)
-    {
-        while (true)
-        {
+    public static int ReadChoice(int min, int max){
+        while (true){
             if (int.TryParse(Console.ReadLine(), out int choice ) && choice >= min && choice <= max)
                 return choice;
                 
             Console.WriteLine($"Enter a number from {min} to {max}");
         }
     }
-    static void Menu(ConfigAccess configuration)
-    {
+    static void Menu(ConfigAccess configuration){
         Console.WriteLine($"\nAre you:");
         Console.WriteLine("[1] Loading an activty");
         Console.WriteLine("[2] Adding an activity");
         Console.WriteLine("[3] Removing an activity");
 
-        switch (ReadChoice(1, 2))
+        switch (ReadChoice(1, 3))
         {
             case 1:
                 LoadingActivity.LoadActivity(configuration);
                 break;
             case 2:
                 AddingActivity.AddActivity(configuration);
+                break;
+            case 3:
+                RemovingActivity.RemoveActivity(configuration);
                 break;
         }
     }
