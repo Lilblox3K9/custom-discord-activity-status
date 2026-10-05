@@ -42,6 +42,7 @@ public class ActivityEntry
 {
     public string Name { get; set; } = "";
     public string ApplicationId { get; set; } = "";
+    public string Description { get; set; } = "";
 }
 public class AppConfig
 {

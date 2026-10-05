@@ -18,7 +18,7 @@ class AddingActivity{
             name = Console.ReadLine() ?? "Unnamed";
         }
         
-        var entry = new ActivityEntry { Name = name, ApplicationId = activityToAdd};
+        var entry = new ActivityEntry { Name = name, ApplicationId = activityToAdd, Description = "" };
         
         if (configuration.Add(entry))
             Console.WriteLine("Successfully added application");
